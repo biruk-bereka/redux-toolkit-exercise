@@ -1,4 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
 // import cartItems from '../../carItems';
 
 const url = 'https://course-api.com/react-useReducer-cart-project';
@@ -9,7 +11,14 @@ const initialState = {
   isLoading: true,
 };
 
-export const getCartItems = createAsyncThunk('cart/getCartItems', () => fetch(url).then((resp) => resp.json()).catch((err) => console.log(err)));
+export const getCartItems = createAsyncThunk('cart/getCartItems', async () => {
+  try {
+    const resp = await axios(url);
+    return resp.data;
+  } catch (error) {
+    return error;
+  }
+});
 
 const cartSlice = createSlice({
   name: 'cart',
